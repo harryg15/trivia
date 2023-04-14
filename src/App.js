@@ -5,7 +5,18 @@ const category = '';
 const TRIVIA_API = `https://opentdb.com/api.php?amount=1&category=${category}&difficulty=easy`;
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = { question: null }
+  }
 
+  async componentDidMount() {
+    const response = await fetch(TRIVIA_API)
+    const data = await response.json()
+    const questionResponse = data.results[0]
+    console.log(data.results[0])
+    this.setState({ question: questionResponse })
+  }
 
   render() {
     return (
@@ -18,6 +29,7 @@ class App extends Component {
         <hr />
         <div>
           {/* Render question here */}
+          {this.state.question && <Question question={this.state.question} />}
         </div>
       </div>
     );
